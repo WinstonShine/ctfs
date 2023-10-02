@@ -49,4 +49,18 @@ and check the final length is greater than 4 bytes
     this was hard, did not finish going to keep trying throughout the week
     and see if someone else posts a write up
 
-            
+    the first byte is multipled by 16, which is essentially adding a zero in
+    hexadecimal
+    since we have 2 bytes ending up as 1 byte in the final output we can look
+    at the first byte as the upper four bits of the final outcome, and the
+    second byte as the lower 4 bits ex:
+    we give a 2 byte input and want to get back the byte \x84
+    a & b must be lower than 32,
+    a + 9 % 25 must be 8
+    b + 9 % 25 must be 4
+    a = 24
+    b = 20
+    (a % 32 + 9) % 25  * 16 = 128
+    (b % 32 + 9) % 25       = 4
+                              132 == 0x84
+    
