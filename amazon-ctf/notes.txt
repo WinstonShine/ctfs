@@ -1,0 +1,43 @@
+# simple offer
+    vuln function calls gets into a buffer of 32
+    sent a*32 + BBBBCCCCDDDD.... to find where the program segfaulted
+    segfaulted at CCCC
+    found address of win function at 0x00401176
+    sending a*40 + \x76\x11\x40\x00 in python worked locally but not remotely
+    through nc
+    
+    noticed a difference in address for main because of the feedback the 
+    binary gives after sending a message and thought it might have been an offset
+    i could calculate,
+
+    the 'offset' i thought was there was way off. an amazon employee gave a hint that 
+    if our solution is working locally add 0x20, the offset i was attempting was 0x7a
+    apparently the difference was because of a new version of glibc,
+    I wonder how i could have figured this out on my own
+
+# delivery
+    buffer of 32
+    if read(0,buffer,64) < 5
+        - think this reads up to 64 characters, but i am not sure what the less than 5 condition means
+        ill have to read up on what the read function returns
+
+    either way i think this challenge requires us to write some shellcode and 
+    get the program to redirect to where our input is saved,
+    the program tells us an address so my first attempt will be to send a 
+    noticable input and overwrite the return address with
+    the address given to us and see if I can notice my input in gdb
+
+    offset = 8 bytes
+    a * 40 + address
+    address given to us changes everytime im unsure if its relevent,
+    next attempt is to check the address where my input is stored and try to redirect there
+    0x7fffffffe120
+    succesfully got the program to execute a nop sled starting at this address,
+    next step write shellcode to open a shell and insert it after the sled, but before the return address,
+
+    the problem was ASLR, so when running outside of gdb the location my shell code
+    was being placed at a different address everytime
+    
+    since the program gives us the address whan ran, i learned to use pwntools in order
+    to start the program, read the message and extract the given address, and then
+    use that address in my payload before sending

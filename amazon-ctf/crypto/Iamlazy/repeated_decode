@@ -1,0 +1,10 @@
+#!/bin/bash
+done=false
+counter=0
+while ! $done; do
+    if grep 'Amazon' out || grep 'Amazon' out2; then
+            $done=true
+            echo 'Won'
+        else 
+    fi
+done

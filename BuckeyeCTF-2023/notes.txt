@@ -1,0 +1,52 @@
+# beginner menu
+
+strcmp vuln,
+either enter nothing or a large input ie '9' * 50 and got the flag.
+
+# starter-buffer
+
+bufferoverflow comparing two ints after grabbing input with size 50 and buffer 
+of 0x50
+
+need to get int declared above to be equivalent to 0x45454545,
+input 0x45 * 100 and got flag, not sure precisely how many were actually needed
+to overflow into the integer variable
+
+# Igpay-Atinlay
+
+rust program, not sure where to start,
+./igpay-atinlay-natoriay-3000 \
+    || printf "You crashed my program :(\n$FLAG"
+
+this is the run file in root, i think its as simple as crashing the program,
+right if igpay fails then printf will run, otherwise if igpay succesfully exits
+it will not.
+
+# saas
+arm 32 binary
+program seems to validate that our input is all hex and a even number of chars,
+possibly shuffle the bytes around through a parsehex function
+    - the 'shuffle' steps through our input in steps of 2 and ..
+        (hex1 % 32 + 9) % 25 * 16 + (hex2 % 32 + 9) % 25
+        the final length being half of our original input?
+
+and check the final length is greater than 4 bytes
+    - really confused how all of my inputs so far have failed this check,
+        even putting in large trys like 4096 chars
+    ** Modular Inverses **
+    src: https://www.khanacademy.org/computing/computer-science/cryptography/modarithmetic/a/the-euclidean-algorithm
+    
+    the modular inverse of A (mod C) is A^-1
+    (A * A^-1) = 1 (mod C) or (A * A^-1) mod C = 1
+    steps to find inverse:
+        calculate a * b mod c for b values 0 through c-1
+        the inverse of a mod c is the b value that makes a * b mod c = 1
+            there is a faster method called the extended euclidean algorithm,
+        
+        for a, b
+            if a = 0 gcd(a,b) = b
+            if b = 0 gcd(a,b) = a
+    this was hard, did not finish going to keep trying throughout the week
+    and see if someone else posts a write up
+
+            
