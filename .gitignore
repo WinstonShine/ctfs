@@ -1,0 +1,4 @@
+*.core
+core
+*.dmp
+peda-session*

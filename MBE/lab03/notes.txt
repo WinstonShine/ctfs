@@ -1,0 +1,41 @@
+wh0_n33ds_5h3ll3_wh3n_U_h4z_s4nd
+
+# lab3C
+    program allows you to put unsiged integers in an array at an index of
+    your choice.
+    the vulnerability is that it does not check the index given vs the bounds
+    of the array.
+    the other gimmick here is that the program will not let you write to any index
+    where index % 3 == 0.
+        the solution to this is to make use of relative jmps ie: jmp $+6
+        to jump to current ip + 6
+        having this 2byte jmp instruction every 10 bytes allows us to run code 
+        placed in the array starting at index 1, and skip instructions 13 - 16 
+        using a jmp instruction
+        ex:
+            nop
+            nop
+            nop
+            nop
+            nop
+            nop
+            nop
+            nop
+            nop
+            nop
+            jmp $+6
+            add eax al   << 4 byte space we are not able to write to
+            add eax al   <<
+            nop
+            nop
+            ...
+
+    I almost solved this before. This time I realized this time that what I had wrong was the
+    memory address, what I was finding in gdb was not the correct address.
+    I think I can safely assume the difference from gdb and running regularly should be 
+    in multiples of the register size. In this case 32 bit so trying the address found
+    in gdb +/- 32 could work, this is something I should get more familiar with for later 
+    challenges
+        * need to confirm this
+
+sw00g1ty_sw4p_h0w_ab0ut_d3m_h0ps
