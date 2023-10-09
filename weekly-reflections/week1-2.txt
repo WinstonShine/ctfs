@@ -1,0 +1,43 @@
+# ctfs
+    attempted one challenge that was in 32bit arm architecture that I was not familiar at all,
+    through trying this challenged i learned how i can debug exploits on such a binary
+    when im not running such an os, The challenge did provide a docker file to run
+    the program but I was not able to get that to work, I would like to look into 
+    how to use such a docker file because I think its something I will encounter frequently
+
+    another challenge i attempted and could not solve was written in rust
+    after reading a write up the exploit was simpler than I thought it was, and I think
+    I should learn a bit of rust in case I see more challenges like this.
+    In this specific ctf I know there was atleast one other challenge written in rust.
+    
+    * since these ctfs are time limited next time i want to skip the beginner pwn challenges
+        and start with something more challenging.
+
+# MBE
+    finished last lab in shellcoding (lab03),
+    Issue I had was a memory address being slightly off from what i was getting
+    in gdb. to figure this out I believe the way to go is to attempt  memory lower than
+    what was found in gdb,
+        - need to find out what is the best offset to check?
+        - on a 32bit ISA is it safe to assume the offset would be in 32 bit increments?
+        - or is there no correlation and i should use smaller increments?
+            - more specifically why does gdb have close to but sliightly differences in memory
+            addresses then a program ran outside of gdb?
+    I learned more about using pwntools, debugging with gdb and identifying return addresses
+    by looking at the parameters to a function call
+
+    I have not started the DEP/ROP labs yet
+
+# LFS
+    finished chapter 2
+    got a vm set up and disk set up to build lfs on
+    honestly not much not to note the project is kind of just getting started
+
+
+## week 3 goals
+    * finish DEP/ROP MBE
+    * start ASLR reading / MBE labs
+    * lfs chapter 3 & 4 - now that i have a vm ready and clarified if it was 
+        possible to use a vm for this project.
+        - learn more about sys calls
+    * ctfs - ?

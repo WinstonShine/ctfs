@@ -1,0 +1,44 @@
+# bugspray
+
+input stored:
+		0x777777 ?
+		size of input read 0x1f4
+		compares input against 0x64
+		jump if less than
+		next lines seems to compare lenght of bytes read against 0x66
+		and then jump if greater than or equal to 66	
+
+        either of these jumps results in a segfault because the program
+        jumps to the bugspray function that keeps pushing 0xc1cada
+        onto the stack too many times,
+
+        after passing the first 2 tests a sys call happens using the length of 
+        bytes read as the argument, from what i can tell this can only ever be
+        0x64 or 0x65 which is the times or ptrace syscall
+        
+        finally a 3rd test happens -> 
+            test rax, rax
+            je 0x40..., off
+
+                i believe this is saying jump if rax is equal to 0
+                i cant imagine a way times will ever return 0, but ptrace should
+                on success, it doesn't in my tests and I have no idea how to manipulate
+                the other arguments passed to it
+
+        couldnt get ptrace to return 0 in while in gdb, but was succesfully able to
+        run my shellcode when attempting outside of gdb. I dont quit get how the ptrace
+        sys call worked when it was being given an arg of 0 for pid.
+        But i noticed when running outside of gdb the program was ending with a SIGTRAP
+        rather then SIGSEGV.
+        from my  understanding if a specific flag called PTRACE_0_TRACEEXEC is not on
+        all successfull calls to execve will sent a SIGTRAP signal.
+        
+        I was able to get the flag once trying my current exlploit but replacing
+        execve('/bin/sh') shellcode with some open-read-write shellcode
+
+        >   ptrace was also being passed a request value of 0 which is equivalent to
+            a request of PTRACE_TRACEME, takes arags 0, 0, 0 and makes the current 
+            process be traced by its parent.
+            this seems like a weird use case since I dont think the program ever forked?
+
+            sun{mosquitos_and_horseflies_and_triangle_bugs_oh_my}
