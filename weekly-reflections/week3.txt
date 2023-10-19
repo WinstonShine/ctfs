@@ -1,0 +1,26 @@
+# ncl
+    this week was the ncl practice game
+    the categories of challenges I attempted were crypto and password cracking
+    
+    I learned how to use hashcat to do combination of brute force/dictionary 
+    attacks to crack passwords. As well as how messages can be hidden within images
+    and what tools there are to either place or discover those messages
+
+    I was pretty lost on the more difficult password cracking challenges and I 
+    want to understand how the hashcat program works and more important in what ways it can be used
+    to solve more difficult problems
+
+    For the crypto section I was hard stuck on the AES challenge,
+    I think i had some good ideas/attempts but I also am not quite sure because
+    my understanding of AES encryption is pretty vague,
+    When talking about crypto AES comes up frequently and that is definately something
+    I want to learn more about.
+    next week I'm going to check if there are any sections in Hacking the art of Exploitation
+    on AES, and if not maybe find an another source that could help me understand
+    AES encryption.
+
+    although I didn't initially plan this when designing my ILC, I spend time this week
+    learning rust working through the rust-lang book and accompaning exercises
+    partly this is just cause I thought i might like the language but I've also encountered 
+    a few binary challenges that were written in rust and think it will benefit me
+    to the rust language.
