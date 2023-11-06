@@ -1,0 +1,19 @@
+# week 4-5
+    During week 4 I mostly attempted challenges in the ncl games being hosted. 
+    The categories I focused on were cryptography, password cracking and network traffic analysis.
+
+    Overall during week 4 and 5 I didn’t make much progress on the MBE labs or
+    attempt any ctf challenges I mostly have been reading about countermeasures in 
+    the Hacking the art of exploitation book as well as ASLR and Heap exploitation 
+    slides provided for the MBE labs ( https://github.com/RPISEC/MBE ).
+
+    I am also trying to find another resource, preferably a book on Binary Exploitation 
+    for the future since I am going to need it soon.
+
+    My plans have changed a lot since I made the initial syllabus or plan but 
+    I think that’s ok. For the next 2 weeks my plans are to finish the readings 
+    I’ve started and then proceed with the next set of MBE labs and then I want to 
+    reverse engineer and write the source code for my favorite challenge that I have solved this quarter,
+    I think this will be a good way to get a better understanding binaries that I have not tried yet.
+    Additionally I think for my final project I want to attempt to write a challenge myself 
+    and I think trying to recreate the source code for a binary will be great practice for that.
