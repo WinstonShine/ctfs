@@ -1,0 +1,93 @@
+# reversing
+    trying to reverse the bugspray challenge i noticed there are no c functions called 
+    and syscalls are called directly using the assembly interrupt instruction,
+    this makes me wonder:
+        does this mean the program was written in assembly?
+        can i replicate this in c using dropdown asm?
+            https://gcc.gnu.org/onlinedocs/gcc/extensions-to-the-c-language-family/how-to-use-inline-assembly-language-in-c-code.html   
+        
+    after looking at the output of objdump -t i noticed a symbol named bugspray.asm
+    I believe this challenge was written in assembly
+    this week i started writing the source and i think i got the definitions for 
+    the different data sections correct and the rest i should be able to finish up
+    in week 7.
+
+# MBE slides notes
+    # 4 - Memory Corruption
+       
+        * program memory layout
+        
+        Runtime Memory <- 0x00000000
+        Libraries (libc)
+        ELF Executable
+        .text
+        .data
+        Heap
+            <-0xbfff0000  Top of stack
+        Stack
+            <-0xFFFFFFFF end of memory
+
+    # 5 - DEP & ROP
+        on checksec command, NX == DEP
+        Data Execution Prevention
+        mitigates code injection
+        known as DEP,NX,XN,XD,W^X
+
+        basically data on the heap and stack are not flagged to be
+        executable and cannot be run as code
+        the work around for this is return oriented programming ROP
+
+        * common data segments
+            stack, heap
+            .bss .ro .data
+        * common code segments
+            .text
+            .plt
+
+        DEP introduced 2004 in linux/windows
+
+    # 9 - ASLR
+        randomizes virtual address space layout for runtime memory
+
+        implemented 2004/2005 linux
+        cat /proc/sys/kernel/randomize_va_space to check for aslr 
+            o - no aslr
+            1 - conservative randomization (stack, heap, shared libs, pie, mmap(), VDRO)
+            2 - full randomization
+        
+        * main elf binary is not randomized,
+            basically all code segments and some misc data segments
+
+        # Position independent Executable - PIE
+            'Executables compiled such that their base address does not matter'
+            position independent code        
+
+            - shared libs have to be compiled like this (libc)
+
+            compile with flags -pie -fPIE
+
+            these flags are needed to make full use of ASLR
+
+            most binaries are not compiled as PIE
+
+            * bypassing aslr
+                we dont know the address of anything
+                -info leak
+                    extract meaningful info
+                    * i believe this referes to a case where you can read or print
+                        out the address of something during runtime and use the value
+                        printed out in your exploit, like maybe the address of something
+                    
+                    finding even a single memory address is so valueable because
+                    you can find everything else relative to it
+
+                -partial overwrites 
+                    useful if you cant get an info leak but you can overwite
+                    an address
+                    
+                    * dont bother to try to brute force addresses on any 64bit machine
+                    * ubuntu aslr is rather weak? because of low entropy?
+
+                    -> analyze crash state (registers, stack, etc)
+
+                    DEP & ASLR are the two main mitigation tech
