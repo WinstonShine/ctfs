@@ -35,3 +35,49 @@
         (scanf("%d%*c", &choice) != 1)
         choice is int so this would have to be some integer overflow/underflow exploit.
 
+# MBE lecture examples
+    aslr_leak1
+        
+        program prints the address of the win function for us.
+        i am able to extract the address out and send it back as bytes 
+        using pwntools.
+
+        fgets takes 40 chars and is writing to a char[16]
+        
+    aslr_leak2
+        the vuln seems to be on a memcopy of of length 16 into a buffer of 16?
+        adding 16+ characters seems to have an address appended on the end.
+
+        so adding 16 characters overwrites the null byte the singals the end of
+        the string. causing the following printf statement to leak datat coming after it
+        
+        leaked address seems to be address to libc_csu_init,
+        has offset 0820? found via objdump -t
+        ldd to find path to linked libs:
+            linux-gate.so.1 =>  (0xb76df000)
+            libc.so.6 => /lib/i386-linux-gnu/libc.so.6 (0xb7522000)
+            /lib/ld-linux.so.2 (0xb76e2000)
+
+        i think i can take the leaked address of libc_csu_init and
+        subtract 0x0820 to get libc base address
+        then find the offset from libc base to something like system or execve
+        execve off ? 000b8650
+        
+        i was able to take the leaked address and find the running programs base address
+        by looking at the offset that leaked function and subtracting it from the leaked address.
+        then i looked in gdb at runtime and printed the address of system
+        and found the offset from the current program base to to the system call,
+        and using the same offset method i found the address of a '/bin/sh' string
+        in libc and using that as an argument to system
+
+        in hindsight i think i might have taken a few unnecssary steps..
+        ie: going from function call to base of program to system to start of libc
+        and then finally to /bin/sh string.
+        i think there might have a been a simpler way to find the base address of libc
+        commands usseful here:
+            readelf -s /lib/i386/libc.so.6
+            strings -a -t x
+            
+            in gdb:
+                p *system (once running)
+ 
